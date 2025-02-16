@@ -67,7 +67,7 @@ func (r *SQLiteRepository) GetAdByID(adID string) (*domain.Ad, error) {
 
 // Suma la cantidad total de todos los ads de una org
 func (r *SQLiteRepository) GetSumAdsPublishedByOrg(orgID string) (int, error) {
-	query := `SELECT SUM(amount * price) FROM ads WHERE org_id = ?`
+	query := `SELECT SUM(amount) FROM ads WHERE org_id = ?`
 	row := r.db.QueryRow(query, orgID)
 
 	var total int

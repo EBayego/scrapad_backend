@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	FinancingBankSlug    = "financing_by_bank"
-	FinancingFintechSlug = "financing_by_fintech"
+	FinancingBankSlug    = "financing_bank"
+	FinancingFintechSlug = "financing_fintech"
 )
 
 type OfferService interface {
@@ -93,8 +93,8 @@ func (s *offerService) decideFinancingProvider(org domain.Organization) (int, er
 		return 0, err
 	}
 
-	oneYearAgo := time.Now().AddDate(-1, 0, 0)
-	if sumAds > 10000 && org.CreatedDate.Before(oneYearAgo) {
+	oneYearAgo := time.Now().AddDate(-1, 0, 0).UTC()
+	if sumAds > 10000 && oneYearAgo.Before(org.CreatedDate) {
 		if org.Country == "SPAIN" || org.Country == "FRANCE" {
 			// financing_by_bank
 			fp, err := s.repo.GetFinancingProviderBySlug(FinancingBankSlug)
