@@ -11,21 +11,21 @@ import (
 )
 
 func main() {
-	// Inicializa repositorio (SQLite)
+	// Inicializar repositorio con SQLite
 	db, err := repository.NewSQLiteConnection("C:/Users/Edu/Desktop/Projects/Backend-Test-Medior/scrapad_backend/database/scrapad_assigment.db")
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
 	defer db.Close()
 
-	// Crea instancias de repositorio
+	// Crear instancias de repositorio
 	repo := repository.NewSQLiteRepository(db)
 
-	// Crea los servicios de negocio
+	// Crear los servicios de negocio
 	financeService := service.NewFinanceService(repo)
 	offerService := service.NewOfferService(repo, financeService)
 
-	// Crea el router y registra handlers
+	// Crear el router y registra handlers
 	r := mux.NewRouter()
 	rest.RegisterHandlers(r, offerService)
 

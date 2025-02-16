@@ -4,14 +4,12 @@ import (
 	"time"
 )
 
-// Organization representa la tabla organizations
 type Organization struct {
 	ID          string    `json:"id"`
 	Country     string    `json:"country"`
 	CreatedDate time.Time `json:"created_date"`
 }
 
-// Ad representa la tabla ads
 type Ad struct {
 	ID     string `json:"id"`
 	Amount int    `json:"amount"`
@@ -19,7 +17,6 @@ type Ad struct {
 	OrgID  string `json:"org_id"`
 }
 
-// FinancingProvider representa la tabla financing_providers
 type FinancingProvider struct {
 	ID                  int    `json:"id"`
 	Slug                string `json:"slug"`
@@ -27,29 +24,27 @@ type FinancingProvider struct {
 	FinancingPercentage int    `json:"financing_percentage"`
 }
 
-// Offer representa la tabla offers
 type Offer struct {
 	ID                string `json:"id"`
 	PaymentMethod     string `json:"payment_method"`
-	FinancingProvider int    `json:"financing_privder"` // referencia a FinancingProvider.ID
+	FinancingProvider int    `json:"financing_privder"`
 	Amount            int    `json:"amount"`
-	Accepted          int    `json:"accepted"` // 0 o 1
+	Accepted          int    `json:"accepted"`
 	Price             int    `json:"price"`
 	AdId              string `json:"ad_id"`
-	// otras propiedades según sea necesario
 }
 
-// Solicitudes (DTOs) para los endpoints
+// Solicitudes o DTOs para los endpoints
 type CreateOfferRequest struct {
-	Ad            string `json:"ad"`             // uuid
-	Amount        int    `json:"amount"`         // en centavos
-	Price         int    `json:"price"`          // en centavos
-	PaymentMethod string `json:"payment_method"` // ejemplo: "100_in_unload"
+	Ad            string `json:"ad"`
+	Amount        int    `json:"amount"`
+	Price         int    `json:"price"`
+	PaymentMethod string `json:"payment_method"`
 }
 
 type FinancingRequest struct {
-	FinancingPartner string `json:"financingPartner"` // ej: "financing_by_bank"
-	TotalToPerceive  int    `json:"totalToPerceive"`  // valor en centavos
+	FinancingPartner string `json:"financingPartner"`
+	TotalToPerceive  int    `json:"totalToPerceive"`
 }
 
 type AcceptOfferRequest struct {

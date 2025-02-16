@@ -24,7 +24,6 @@ func RegisterHandlers(r *mux.Router, offerSvc service.OfferService) {
 	r.HandleFunc("/offers/{offerID}/accept", h.AcceptOffer).Methods("POST")
 }
 
-// CreateOffer handler
 func (h *offerHandler) CreateOffer(w http.ResponseWriter, r *http.Request) {
 	var req domain.CreateOfferRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -42,7 +41,6 @@ func (h *offerHandler) CreateOffer(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(offer)
 }
 
-// GetPendingOffers handler
 func (h *offerHandler) GetPendingOffers(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	orgID := vars["orgID"]
@@ -57,7 +55,6 @@ func (h *offerHandler) GetPendingOffers(w http.ResponseWriter, r *http.Request) 
 	json.NewEncoder(w).Encode(offers)
 }
 
-// RequestFinancing handler
 func (h *offerHandler) RequestFinancing(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	offerID := vars["offerID"]
@@ -82,7 +79,6 @@ func (h *offerHandler) RequestFinancing(w http.ResponseWriter, r *http.Request) 
 	json.NewEncoder(w).Encode(resp)
 }
 
-// AcceptOffer handler
 func (h *offerHandler) AcceptOffer(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	offerID := vars["offerID"]

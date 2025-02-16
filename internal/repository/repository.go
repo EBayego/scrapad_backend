@@ -5,14 +5,14 @@ import (
 
 	"github.com/EBayego/scrapad-backend/internal/domain"
 	"github.com/google/uuid"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3" //para ejecutar solo el init() sin usarlo en el resto del codigo
 )
 
 type SQLiteRepository struct {
 	db *sql.DB
 }
 
-// NewSQLiteConnection crea la conexión a la base de datos
+// Crea la conexión a la base de datos
 func NewSQLiteConnection(path string) (*sql.DB, error) {
 	db, err := sql.Open("sqlite3", path)
 	if err != nil {
@@ -26,7 +26,7 @@ func NewSQLiteConnection(path string) (*sql.DB, error) {
 	return db, nil
 }
 
-// NewSQLiteRepository crea una instancia de repositorio
+// Crea una instancia de repositorio
 func NewSQLiteRepository(db *sql.DB) *SQLiteRepository {
 	return &SQLiteRepository{db: db}
 }
@@ -160,11 +160,6 @@ func (r *SQLiteRepository) GetOfferByID(offerID string) (*domain.Offer, error) {
 }
 
 func (r *SQLiteRepository) GetOffersByOrgID(orgID string) ([]domain.Offer, error) {
-	// Asumimos que la relación Offer->Ad->Org la deberíamos resolver con JOIN,
-	// pero en este ejemplo simplificamos y guardamos orgID en la misma tabla,
-	// o lo resolvemos uniendo con Ads. Dependerá del esquema final.
-
-	// Un ejemplo posible:
 	query := `
         SELECT offers.id, offers.ad_id, offers.payment_method, offers.financing_privder, offers.amount, offers.accepted, offers.price
         FROM offers
