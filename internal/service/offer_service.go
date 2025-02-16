@@ -171,9 +171,10 @@ func (s *offerService) AcceptOffer(offerID string, req domain.AcceptOfferRequest
 	// Si se pasa un slug nuevo, forzamos
 	if req.FinancingPartner != "" {
 		fp, err := s.repo.GetFinancingProviderBySlug(req.FinancingPartner)
-		if err == nil {
-			offer.FinancingProvider = fp.ID
+		if err != nil {
+			return errors.New("financing provider not found")
 		}
+		offer.FinancingProvider = fp.ID
 	}
 
 	// Aceptamos
