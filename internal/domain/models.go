@@ -35,6 +35,7 @@ type Offer struct {
 	Amount            int    `json:"amount"`
 	Accepted          int    `json:"accepted"` // 0 o 1
 	Price             int    `json:"price"`
+	AdId              string `json:"ad_id"`
 	// otras propiedades según sea necesario
 }
 

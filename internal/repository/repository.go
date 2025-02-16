@@ -124,9 +124,9 @@ func (r *SQLiteRepository) CreateOffer(o domain.Offer) (*domain.Offer, error) {
 	if o.ID == "" {
 		o.ID = uuid.New().String()
 	}
-	query := `INSERT INTO offers(id, payment_method, financing_privder, amount, accepted, price)
-              VALUES(?, ?, ?, ?, ?, ?)`
-	_, err := r.db.Exec(query, o.ID, o.PaymentMethod, o.FinancingProvider, o.Amount, o.Accepted, o.Price)
+	query := `INSERT INTO offers(id, payment_method, financing_privder, amount, accepted, price, ad_id)
+              VALUES(?, ?, ?, ?, ?, ?, ?)`
+	_, err := r.db.Exec(query, o.ID, o.PaymentMethod, o.FinancingProvider, o.Amount, o.Accepted, o.Price, o.AdId)
 	if err != nil {
 		return nil, err
 	}
@@ -166,10 +166,9 @@ func (r *SQLiteRepository) GetOffersByOrgID(orgID string) ([]domain.Offer, error
 
 	// Un ejemplo posible:
 	query := `
-        SELECT offers.id, offers.payment_method, offers.financing_privder, offers.amount, offers.accepted, offers.price
+        SELECT offers.id, offers.ad_id, offers.payment_method, offers.financing_privder, offers.amount, offers.accepted, offers.price
         FROM offers
-        JOIN ads ON ads.id = offers.id  -- OJOIN con la tabla 'ads' si coincidiera en algo
-        -- Deberíamos tener un campo en 'offers' que relacione con 'ads', p. ej. 'ad_id'
+        JOIN ads ON ads.id = offers.ad_id
         WHERE ads.org_id = ?
     `
 	rows, err := r.db.Query(query, orgID)
@@ -181,7 +180,7 @@ func (r *SQLiteRepository) GetOffersByOrgID(orgID string) ([]domain.Offer, error
 	var offers []domain.Offer
 	for rows.Next() {
 		var o domain.Offer
-		err := rows.Scan(&o.ID, &o.PaymentMethod, &o.FinancingProvider, &o.Amount, &o.Accepted, &o.Price)
+		err := rows.Scan(&o.ID, &o.AdId, &o.PaymentMethod, &o.FinancingProvider, &o.Amount, &o.Accepted, &o.Price)
 		if err != nil {
 			return nil, err
 		}
